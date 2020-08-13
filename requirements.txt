@@ -1,0 +1,3 @@
+pynetbox==4.3.0
+rich==5.1.2
+requests==2.22.0
