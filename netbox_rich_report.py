@@ -43,7 +43,7 @@ def print_vlans(nb, site):
     table_vlans.add_column("NAME", style="magenta")
     table_vlans.add_column("DESCRIPTION", style="green")
     for v in nb.ipam.vlans.filter(site=site):
-        table_vlans.add_row(str(v.id), v.name, v.description)
+        table_vlans.add_row(str(v.vid), v.name, v.description)
     console = Console()
     console.print(table_vlans)
 
