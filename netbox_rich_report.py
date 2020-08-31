@@ -75,14 +75,20 @@ def print_ip(nb, site):
 def main():
 
     my_parser = argparse.ArgumentParser(description="Netbox site report")
-    my_parser.add_argument("site", help="site", action="store", type=str)
+    my_parser.add_argument("site", help="site slug", action="store", type=str)
     my_parser.add_argument("url", help="netbox url", action="store", type=str)
     my_parser.add_argument("token", help="netbox token", action="store", type=str)
     args = my_parser.parse_args()
     site = args.site
-    netboxurl = args.url
+    if "http" in args.url:
+        netboxurl = args.url
+    else:
+        netboxurl = f"http://{args.url}"
     token = args.token
-    nb = pynetbox.api(url=netboxurl, token=token, ssl_verify=False)
+    session = requests.Session()
+    session.verify = False
+    nb = pynetbox.api(url=netboxurl, token=token)
+    nb.http_session = session
     print_prefixes(nb, site)
     print_vlans(nb, site)
     print_ip(nb, site)
